@@ -8,12 +8,9 @@
 		this.localValue = {
 			ele: '#cupload',
 			name: 'image',
+			num: 1,
 			width: 148,
 			height: 148,
-			num: 1,
-			size: 2048,
-			limitedWidth: 1920,
-			limitedHeight: 1080,
 		}
 
 		this.opt = this.extend(this.localValue, options, true)
@@ -40,9 +37,6 @@
 			this.cteateImageList()
 			this.createUploadBox()
 			if (this.opt.data) {
-				if (this.opt.data.length >= this.opt.num) {
-					this.removeUploadBox()
-				}
 				this.showImagePreview()
 			}
 		},
@@ -139,8 +133,16 @@
 		},
 
 		limitedSize: function(file) {
-			if (file.size > this.opt.size * 1024) {
-				alert('图片大小超出限制')
+			if (this.opt.minSize && file.size < this.opt.minSize * 1024) {
+				alert('图片大小未到最小限制')
+				return true
+			}
+			if (this.opt.maxSize && file.size > this.opt.maxSize * 1024) {
+				alert('图片大小超出最大限制')
+				return true
+			}
+			if (this.opt.limitedSize && file.size > this.opt.limitedSize * 1024) {
+				alert('图片大小不符合要求')
 				return true
 			}
 			return false
@@ -151,16 +153,31 @@
 			tempImage.src = src
 			var _this = this
 			tempImage.onload = function() {
-				if (this.width > _this.opt.limitedWidth) {
-					alert('图片宽度超出限制')
+				if (_this.opt.minWidth && this.width < _this.opt.minWidth) {
+					alert('图片宽度未到最小限制')
 					return false
 				}
-				if (this.height > _this.opt.limitedHeight) {
-					alert('图片高度超出限制')
+				if (_this.opt.minHeight && this.height < _this.opt.minHeight) {
+					alert('图片高度未到最小限制')
+					return false
+				}
+				if (_this.opt.maxWidth && this.width > _this.opt.maxWidth) {
+					alert('图片宽度超出最大限制')
+					return false
+				}
+				if (_this.opt.maxHeight && this.height > _this.opt.maxHeight) {
+					alert('图片高度超出最大限制')
+					return false
+				}
+				if (_this.opt.limitedWidth && this.width != _this.opt.limitedWidth) {
+					alert('图片宽度不符合要求')
+					return false
+				}
+				if (_this.opt.limitedHeight && this.height != _this.opt.limitedHeight) {
+					alert('图片高度不符合要求')
 					return false
 				}
 				_this.foreachNum(src, name, this.width, this.height)
-				// _this.createImageBox(src, name, this.width, this.height)
 			}
 		},
 
@@ -188,6 +205,9 @@
 			this.createImagePreview(src, width, height)
 			this.createImageInput(src)
 			this.createImageDelete(name)
+			if (!state) {
+				this.setDefaultImage()
+			}
 			var _this = this
 			for (var m = 0; m <= this.i; m++) {
 				this.imageBox[m].index = m
@@ -202,9 +222,6 @@
 						_this.hideImageDelete(n)
 					}
 				}(m)
-			}
-			if (!state) {
-				this.setDefaultImage()
 			}
 			this.i++
 		},
@@ -299,8 +316,11 @@
 		},
 
 		showImagePreview: function() {
-			var _this = this
 			var obj = this.opt.data
+			if (obj.length >= this.opt.num) {
+				this.removeUploadBox()
+			}
+			var _this = this
 			var tempImage = new Image()
 			tempImage.src = obj[this.i]
 			tempImage.onload = function() {
