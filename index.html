@@ -5,13 +5,21 @@
 		<title>cupload</title>
 	</head>
 	<body>
-		<div id="cupload"></div>
+		<p>新建</p>
+		<div id="cupload-create"></div>
+		<p>编辑</p>
+		<div id="cupload-update"></div>
 	</body>
 	<script src="static/js/cupload.js"></script>
 	<script type="text/javascript">
-		var cupload = new Cupload ({
-			ele	 : '#cupload',
-			num  : 5,
+		var cuploadCreate = new Cupload ({
+			ele: '#cupload-create',
+			num: 3,
+		});
+
+		var cuploadUpdate = new Cupload ({
+			ele	 : '#cupload-update',
+			num  : 3,
 			data : ["static/image/1.jpg", "static/image/2.png", "static/image/3.png"],
 		});
 	</script>
