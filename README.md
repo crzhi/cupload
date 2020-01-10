@@ -10,9 +10,9 @@
 
 下载：
 
-<pre>
+```html
   git clone https://github.com/cuuuuuirz/cupload.git
-</pre>
+```
 
 使用：
 
