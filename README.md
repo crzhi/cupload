@@ -11,7 +11,7 @@
 下载：
 
 ```html
-  git clone https://github.com/cuuuuuirz/cupload.git
+git clone https://github.com/cuuuuuirz/cupload.git
 ```
 
 使用：
