@@ -16,6 +16,9 @@
 		this.opt = this.extend(this.localValue, options, true)
 
 		this.i = 0;
+		this.imageArr = new Array();
+		this.widthArr = new Array();
+		this.heightArr = new Array();
 		this.imageBox = new Array();
 		this.imagePreview = new Array();
 		this.imageInput = new Array();
@@ -36,6 +39,7 @@
 		initDom: function() {
 			this.cteateImageList()
 			this.createUploadBox()
+			this.createOverlay()
 			if (this.opt.data) {
 				this.showImagePreview()
 			}
@@ -56,7 +60,6 @@
 			this.imageList.style.margin = 0
 			this.imageList.style.padding = 0
 			this.imageList.style.display = 'inline'
-			this.imageList.style.verticalAlign = 'top'
 			this.imageList.style.minHeight = this.opt.height
 			this.opt.ele.appendChild(this.imageList)
 		},
@@ -85,6 +88,26 @@
 			this.uploadBox.onmouseout = function() {
 				_this.uploadBox.style.borderColor = '#c0ccda'
 			}
+		},
+
+		createOverlay: function() {
+			this.overlay = document.createElement('div')
+			this.overlay.className = 'cupload-overlay'
+			this.overlay.style.display = "none"
+			this.overlay.style.position = "fixed"
+			this.overlay.style.textAlign = "center"
+			this.overlay.style.top = 0
+			this.overlay.style.right = 0
+			this.overlay.style.bottom = 0
+			this.overlay.style.left = 0
+			this.overlay.style.zIndex = 9115
+			this.overlay.style.backgroundColor = "rgba(0,0,0,.3)"
+			this.opt.ele.appendChild(this.overlay)
+			var _this = this
+			this.overlay.onclick = function() {
+				_this.zoomOutImage()
+			}
+
 		},
 
 		createUploadBtn: function() {
@@ -191,6 +214,9 @@
 		},
 
 		createImageBox: function(src, name, width, height, state = true) {
+			this.imageArr[this.i] = src
+			this.widthArr[this.i] = width
+			this.heightArr[this.i] = height
 			this.imageBox[this.i] = document.createElement('li')
 			this.imageBox[this.i].className = 'cupload-image-box'
 			this.imageBox[this.i].style.position = 'relative'
@@ -261,12 +287,21 @@
 			this.imageDelete[this.i].style.textAlign = 'center'
 			this.imageDelete[this.i].style.color = '#fff'
 			this.imageDelete[this.i].style.opacity = 0
+			this.imageDelete[this.i].style.cursor = 'zoom-in'
 			this.imageDelete[this.i].style.backgroundColor = 'rgba(0,0,0,.5)'
 			this.imageDelete[this.i].style.WebkitTransition = '.3s'
 			this.imageDelete[this.i].style.transition = '.3s'
 			this.imageDelete[this.i].title = name
 			this.imageBox[this.i].appendChild(this.imageDelete[this.i])
 			this.createDeleteBtn()
+			var _this = this
+			for (var m = 0; m <= this.i; m++) {
+				this.imageDelete[m].onclick = function(n) {
+					return function() {
+						_this.zoomInImage(n)
+					}
+				}(m)
+			}
 		},
 
 		createDeleteBtn: function() {
@@ -341,6 +376,29 @@
 					}
 				}, 0);
 			}
+		},
+
+		zoomInImage: function(n) {
+			this.zommImage = document.createElement('img')
+			this.zommImage.style.display = "inline-block"
+			this.zommImage.style.verticalAlign = "middle"
+			this.zommImage.src = this.imageArr[n]
+			if (this.widthArr[n] / window.innerWidth > this.heightArr[n] / window.innerHeight) {
+				this.zommImage.style.width = 0.8 * window.innerWidth + 'px'
+				this.zommImage.style.height = 0.8 * this.heightArr[n] / (this.widthArr[n] / window.innerWidth) + 'px'
+			} else {
+				this.zommImage.style.width = 0.8 * this.widthArr[n] / (this.heightArr[n] / window.innerHeight) + 'px'
+				this.zommImage.style.height = 0.8 * window.innerHeight + 'px'
+			}
+			this.overlay.appendChild(this.zommImage)
+			this.overlay.style.lineHeight = window.innerHeight + 'px'
+			this.overlay.style.cursor = "zoom-out"
+			this.overlay.style.display = "block"
+		},
+
+		zoomOutImage: function() {
+			this.overlay.style.display = "none"
+			this.zommImage.remove()
 		},
 
 		deleteImage: function(n) {
