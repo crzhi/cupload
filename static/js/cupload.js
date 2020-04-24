@@ -379,6 +379,9 @@
 		},
 
 		zoomInImage: function(n) {
+			if(event.target.classList[0] === 'cupload-delete-btn') {
+				return;
+			}
 			this.zommImage = document.createElement('img')
 			this.zommImage.style.display = "inline-block"
 			this.zommImage.style.verticalAlign = "middle"
