@@ -20,14 +20,14 @@
 
 		//所需变量
 		this.i = 0;
-		this.imageArr = new Array();//图片
-		this.widthArr = new Array();//图片宽度
-		this.heightArr = new Array();//图片高度
-		this.imageBox = new Array();//图片盒子
-		this.imagePreview = new Array();//图片预览
-		this.imageInput = new Array();//图片input
-		this.imageDelete = new Array();//图片删除遮罩
-		this.deleteBtn = new Array();//图片删除按钮
+		this.imageArr 		= new Array();//图片
+		this.widthArr 		= new Array();//图片宽度
+		this.heightArr 		= new Array();//图片高度
+		this.imageBox 		= new Array();//图片盒子
+		this.imagePreview 	= new Array();//图片预览
+		this.imageInput 	= new Array();//图片input
+		this.imageDelete 	= new Array();//图片删除遮罩
+		this.deleteBtn 		= new Array();//图片删除按钮
 
 		if ((typeof options.ele) === "string") {
 			this.opt.ele = document.querySelector(options.ele)
@@ -43,6 +43,7 @@
 
 		//初始化
 		initDom: function() {
+			var _this = this
 			this.cteateImageList()
 			this.createUploadBox()
 			this.createOverlay()
@@ -230,10 +231,49 @@
 
 		//检测图片数量
 		foreachNum: function(src, name, width, height) {
-			this.createImageBox(src, name, width, height)
+			if(this.opt.url) {
+				var key = this.opt.name
+				var data = {}
+				data[key] = src
+				var _this = this
+				this.ajaxUploadImage(data, function(res) {
+					console.log(res)
+					_this.createImageBox(res.responseText, res.responseText, width, height)
+				})
+			}
 			if (this.imageList.children.length >= this.opt.num) {
 				this.removeUploadBox()
 			}
+		},
+
+		//图片异步上传
+		ajaxUploadImage: function(data,success) {
+			var xhr = null;
+		    if(window.XMLHttpRequest){
+		        xhr = new XMLHttpRequest()
+		    } else {
+		        xhr = new ActiveXObject('Microsoft.XMLHTTP')
+		    }
+		    if(typeof data == 'object'){
+		        var str = '';
+		        for(var key in data){
+		            str += key+'='+data[key]+'&';
+		        }
+		        data = str.replace(/&$/, '');
+		    }
+	        xhr.open('POST', this.opt.url, true);
+	        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	        xhr.send(data);
+		    xhr.onreadystatechange = function(){
+		        if(xhr.readyState == 4){
+		            if(xhr.status == 200){
+		               success(xhr)
+		            } else {
+	                    alert(((xhr.responseText).split("</p>")[0]).split("<p>")[1])
+	                    return false
+		            }
+		        }
+		    }
 		},
 
 		//创建图片框
@@ -382,7 +422,7 @@
 			}
 		},
 
-		//图片预览
+		//data图片预览
 		showImagePreview: function() {
 			var obj = this.opt.data
 			if (obj.length >= this.opt.num) {
