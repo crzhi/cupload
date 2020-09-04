@@ -4,7 +4,7 @@
 
 ![](https://img.shields.io/badge/javascript-4EDD96.svg)
 
-支持图片预览、像素限制、大小限制、多图上传、页面初始化加载图片
+支持预览、像素限制、大小限制、多图上传、放大预览、加载初始图片
 
 #### 下载使用
 
@@ -42,6 +42,7 @@ git clone https://github.com/cuuuuuirz/cupload.git
 	ele		: "#cupload",		// 实例化的DOM对象id,必需,默认为cupload
 	name		: "image",		// 图片input的name名,非必需,默认为image
 	num		: 1,			// 可上传图片的数量,非必需,默认为1
+	url		: "./upload.php",
 	width		: 148,			// 预览框的宽,单位为px,非必需,默认为148
 	height		: 148,			// 预览框的高,单位为px,非必需,默认为148
 	minSize		: 1024,			// 图片大小最小限制,单位为KB,非必需,无默认值
@@ -56,6 +57,3 @@ git clone https://github.com/cuuuuuirz/cupload.git
 	data		: ["1.png", "2.jpg"],	// 编辑模式下初始显示的图片路径,非必需,无默认值
 }
 ```
-
-### TODO
-使用了FileReader的readAsDataURL方法，将图片转为base64编码格式展示和上传，图片越大，base64编码越长，上传时对服务器的性能是个考验。写这个DEMO当做抛砖引玉，望各位大佬有更好的方法指教。

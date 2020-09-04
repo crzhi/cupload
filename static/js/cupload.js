@@ -1,10 +1,12 @@
 (function(window, document) {
 	var Cupload = function(options) {
 
+		//初始化 new对象
 		if (!(this instanceof Cupload)) {
 			return new Cupload(options)
 		}
 
+		//设置默认参数
 		this.localValue = {
 			ele: '#cupload',
 			name: 'image',
@@ -13,17 +15,19 @@
 			height: 148,
 		}
 
+		//参数覆盖
 		this.opt = this.extend(this.localValue, options, true)
 
+		//所需变量
 		this.i = 0;
-		this.imageArr = new Array();
-		this.widthArr = new Array();
-		this.heightArr = new Array();
-		this.imageBox = new Array();
-		this.imagePreview = new Array();
-		this.imageInput = new Array();
-		this.imageDelete = new Array();
-		this.deleteBtn = new Array();
+		this.imageArr = new Array();//图片
+		this.widthArr = new Array();//图片宽度
+		this.heightArr = new Array();//图片高度
+		this.imageBox = new Array();//图片盒子
+		this.imagePreview = new Array();//图片预览
+		this.imageInput = new Array();//图片input
+		this.imageDelete = new Array();//图片删除遮罩
+		this.deleteBtn = new Array();//图片删除按钮
 
 		if ((typeof options.ele) === "string") {
 			this.opt.ele = document.querySelector(options.ele)
@@ -36,6 +40,8 @@
 
 	Cupload.prototype = {
 		constructor: this,
+
+		//初始化
 		initDom: function() {
 			this.cteateImageList()
 			this.createUploadBox()
@@ -45,6 +51,7 @@
 			}
 		},
 
+		//参数覆盖
 		extend: function(o, n, override) {
 			for (var key in n) {
 				if (n.hasOwnProperty(key) && (!o.hasOwnProperty(key) || override)) {
@@ -54,6 +61,7 @@
 			return o
 		},
 
+		//创建图片列表
 		cteateImageList: function() {
 			this.imageList = document.createElement('ul')
 			this.imageList.className = 'cupload-image-list'
@@ -64,6 +72,7 @@
 			this.opt.ele.appendChild(this.imageList)
 		},
 
+		//创建上传框
 		createUploadBox: function() {
 			this.uploadBox = document.createElement('div')
 			this.uploadBox.className = 'cupload-upload-box'
@@ -90,6 +99,7 @@
 			}
 		},
 
+		//创建遮罩
 		createOverlay: function() {
 			this.overlay = document.createElement('div')
 			this.overlay.className = 'cupload-overlay'
@@ -110,6 +120,7 @@
 
 		},
 
+		//创建上传按钮
 		createUploadBtn: function() {
 			this.uploadBtn = document.createElement('span')
 			this.uploadBtn.className = 'cupload-upload-btn'
@@ -121,6 +132,7 @@
 			this.uploadBox.appendChild(this.uploadBtn)
 		},
 
+		//创建上传input
 		createUploadInput: function() {
 			this.uploadInput = document.createElement('input')
 			this.uploadInput.className = 'cupload-upload-input'
@@ -143,20 +155,29 @@
 			}
 		},
 
+		//上传图片
 		uploadImage: function() {
-			var file = this.uploadInput.files[0]
+			if(this.uploadInput.files.length + this.imageList.children.length > this.opt.num) {
+				alert('图片数量超出限制')
+				this.createUploadBox()
+				return
+			}
+			for(j = 0; j < this.uploadInput.files.length; j++){
+				var file = this.uploadInput.files[j]
+				if (!file || this.limitedSize(file)) {
+					return false;
+				}
+				var reader = new FileReader();
+				var _this = this
+				reader.onload = function(e) {
+					_this.limitedWidthAndHeight(e.target.result, file.name)
+				}
+				reader.readAsDataURL(file);
+			}
 			this.createUploadBox()
-			if (!file || this.limitedSize(file)) {
-				return false;
-			}
-			var reader = new FileReader();
-			var _this = this
-			reader.onload = function(e) {
-				_this.limitedWidthAndHeight(e.target.result, file.name)
-			}
-			reader.readAsDataURL(file);
 		},
 
+		//检测图片大小限制
 		limitedSize: function(file) {
 			if (this.opt.minSize && file.size < this.opt.minSize * 1024) {
 				alert('图片大小未到最小限制')
@@ -173,6 +194,7 @@
 			return false
 		},
 
+		//检测图片像素限制
 		limitedWidthAndHeight: function(src, name) {
 			var tempImage = new Image()
 			tempImage.src = src
@@ -206,6 +228,7 @@
 			}
 		},
 
+		//检测图片数量
 		foreachNum: function(src, name, width, height) {
 			this.createImageBox(src, name, width, height)
 			if (this.imageList.children.length >= this.opt.num) {
@@ -213,6 +236,7 @@
 			}
 		},
 
+		//创建图片框
 		createImageBox: function(src, name, width, height, state = true) {
 			this.imageArr[this.i] = src
 			this.widthArr[this.i] = width
@@ -254,6 +278,7 @@
 			this.i++
 		},
 
+		//创建图片预览框
 		createImagePreview: function(src, width, height) {
 			this.imagePreview[this.i] = document.createElement('img')
 			this.imagePreview[this.i].className = 'cupload-image-preview'
@@ -268,6 +293,7 @@
 			this.imageBox[this.i].appendChild(this.imagePreview[this.i])
 		},
 
+		//创建图片input
 		createImageInput: function(src) {
 			this.imageInput[this.i] = document.createElement('input')
 			this.imageInput[this.i].type = 'hidden'
@@ -276,6 +302,7 @@
 			this.imageBox[this.i].appendChild(this.imageInput[this.i])
 		},
 
+		//创建删除
 		createImageDelete: function(name) {
 			this.imageDelete[this.i] = document.createElement('div')
 			this.imageDelete[this.i].className = 'cupload-image-delete'
@@ -304,6 +331,7 @@
 			}
 		},
 
+		//创建删除按钮
 		createDeleteBtn: function() {
 			this.deleteBtn[this.i] = document.createElement('span')
 			this.deleteBtn[this.i].className = 'cupload-delete-btn'
@@ -329,6 +357,7 @@
 			}
 		},
 
+		//设置默认图片
 		setDefaultImage: function() {
 			this.imageBox[this.i].style.backgroundColor = "#B2B2B2"
 			this.imageDelete[this.i].title = '图片不存在'
@@ -342,6 +371,7 @@
 			}
 		},
 
+		//设置图片宽高
 		setImageAttribute: function(width, height) {
 			if (width / this.opt.width > height / this.opt.height) {
 				this.imagePreview[this.i].style.width = this.opt.width - 2 + 'px'
@@ -352,6 +382,7 @@
 			}
 		},
 
+		//图片预览
 		showImagePreview: function() {
 			var obj = this.opt.data
 			if (obj.length >= this.opt.num) {
@@ -378,6 +409,7 @@
 			}
 		},
 
+		//图片放大预览
 		zoomInImage: function(n) {
 			if(event.target.classList[0] === 'cupload-delete-btn') {
 				return;
@@ -399,11 +431,13 @@
 			this.overlay.style.display = "block"
 		},
 
+		//关闭图片放大预览
 		zoomOutImage: function() {
 			this.overlay.style.display = "none"
 			this.zommImage.remove()
 		},
 
+		//删除图片
 		deleteImage: function(n) {
 			this.imageBox[n].remove()
 			this.removeUploadBox()
@@ -412,14 +446,17 @@
 			}
 		},
 
+		//移除上传框
 		removeUploadBox: function() {
 			this.uploadBox.remove()
 		},
 
+		//显示图片删除
 		showImageDelete: function(m) {
 			this.imageDelete[m].style.opacity = 1
 		},
 
+		//隐藏图片删除
 		hideImageDelete: function(m) {
 			this.imageDelete[m].style.opacity = 0
 		},
