@@ -69,9 +69,12 @@
 			this.imageList.className = 'cupload-image-list'
 			this.imageList.style.margin = 0
 			this.imageList.style.padding = 0
-			this.imageList.style.display = 'inline'
+			this.imageList.style.display = 'inline-block'
 			this.imageList.style.minHeight = this.opt.height
 			this.opt.ele.appendChild(this.imageList)
+			this.imageList.ondragstart = function(event) {
+				console.log('start')
+			}
 		},
 
 		//创建上传框
@@ -370,11 +373,25 @@
 			this.createDeleteBtn()
 			var _this = this
 			for (var m = 0; m <= this.i; m++) {
-				this.imageDelete[m].onclick = function(n) {
+
+				this.imageDelete[m].onmousedown = function(n) {
+					event.preventDefault()
 					return function() {
-						_this.zoomInImage(n)
+						_this.dragImageBox(event, n)
 					}
 				}(m)
+
+				this.imageDelete[m].onmousup = function(n) {
+					return function() {
+						console.log(n)
+					}
+				}(m)
+
+				// this.imageDelete[m].onclick = function(n) {
+				// 	return function() {
+				// 		_this.zoomInImage(n)
+				// 	}
+				// }(m)
 			}
 		},
 
@@ -484,6 +501,7 @@
 			this.zommImage.remove()
 		},
 
+		//检测当前图片数量，判断是否创建上传框
 		isCreateUploadBox: function() {
 			this.removeUploadBox()
 			if (this.imageList.children.length < this.opt.num) {
@@ -498,6 +516,16 @@
 			if (this.imageList.children.length < this.opt.num) {
 				this.createUploadBox()
 			}
+		},
+
+		dragImageBox: function(event, n) {
+			console.log(n)
+			console.log(event)
+			console.log(this.imageBox[n])
+			console.log(this.imageBox[n].offsetLeft)
+			console.log(this.imageBox[n].offsetTop)
+			// console.log(this.imageBox[n].width)
+			// console.log(this.imageBox[n].height)
 		},
 
 		//移除上传框
