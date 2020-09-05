@@ -1,4 +1,6 @@
 (function(window, document) {
+
+	//定义上传类
 	var Cupload = function(options) {
 
 		//初始化 new对象
@@ -43,7 +45,6 @@
 
 		//初始化
 		initDom: function() {
-			var _this = this
 			this.cteateImageList()
 			this.createUploadBox()
 			this.createOverlay()
@@ -118,7 +119,6 @@
 			this.overlay.onclick = function() {
 				_this.zoomOutImage()
 			}
-
 		},
 
 		//创建上传按钮
@@ -159,37 +159,40 @@
 		//上传图片
 		uploadImage: function() {
 			if(this.uploadInput.files.length + this.imageList.children.length > this.opt.num) {
-				alert('图片数量超出限制')
 				this.createUploadBox()
+				alert('图片数量超出限制，请重新选择')
 				return
 			}
 			for(j = 0; j < this.uploadInput.files.length; j++){
 				var file = this.uploadInput.files[j]
 				if (!file || this.limitedSize(file)) {
-					return false;
+					this.createUploadBox()
+					return false
 				}
-				var reader = new FileReader();
+				var reader = new FileReader()
 				var _this = this
 				reader.onload = function(e) {
 					_this.limitedWidthAndHeight(e.target.result, file.name)
 				}
 				reader.readAsDataURL(file);
 			}
-			this.createUploadBox()
+			if (this.uploadInput.files.length + this.imageList.children.length < this.opt.num) {
+				this.createUploadBox()
+			}
 		},
 
 		//检测图片大小限制
 		limitedSize: function(file) {
 			if (this.opt.minSize && file.size < this.opt.minSize * 1024) {
-				alert('图片大小未到最小限制')
+				alert('图片' + file.name + '大小未到最小限制，请重新选择')
 				return true
 			}
 			if (this.opt.maxSize && file.size > this.opt.maxSize * 1024) {
-				alert('图片大小超出最大限制')
+				alert('图片' + file.name + '大小超出最大限制，请重新选择')
 				return true
 			}
 			if (this.opt.limitedSize && file.size > this.opt.limitedSize * 1024) {
-				alert('图片大小不符合要求')
+				alert('图片' + file.name + '大小不符合要求，请重新选择')
 				return true
 			}
 			return false
@@ -202,27 +205,33 @@
 			var _this = this
 			tempImage.onload = function() {
 				if (_this.opt.minWidth && this.width < _this.opt.minWidth) {
-					alert('图片宽度未到最小限制')
+					alert('图片' + name + '宽度未到最小限制，请重新选择')
+					_this.isCreateUploadBox()
 					return false
 				}
 				if (_this.opt.minHeight && this.height < _this.opt.minHeight) {
-					alert('图片高度未到最小限制')
+					alert('图片' + name + '高度未到最小限制，请重新选择')
+					_this.isCreateUploadBox()
 					return false
 				}
 				if (_this.opt.maxWidth && this.width > _this.opt.maxWidth) {
-					alert('图片宽度超出最大限制')
+					alert('图片' + name + '宽度超出最大限制，请重新选择')
+					_this.isCreateUploadBox()
 					return false
 				}
 				if (_this.opt.maxHeight && this.height > _this.opt.maxHeight) {
-					alert('图片高度超出最大限制')
+					alert('图片' + name + '高度超出最大限制，请重新选择')
+					_this.isCreateUploadBox()
 					return false
 				}
 				if (_this.opt.limitedWidth && this.width != _this.opt.limitedWidth) {
-					alert('图片宽度不符合要求')
+					alert('图片' + name + '宽度不符合要求，请重新选择')
+					_this.isCreateUploadBox()
 					return false
 				}
 				if (_this.opt.limitedHeight && this.height != _this.opt.limitedHeight) {
-					alert('图片高度不符合要求')
+					alert('图片' + name + '高度不符合要求，请重新选择')
+					_this.isCreateUploadBox()
 					return false
 				}
 				_this.foreachNum(src, name, this.width, this.height)
@@ -237,12 +246,10 @@
 				data[key] = src
 				var _this = this
 				this.ajaxUploadImage(data, function(res) {
-					console.log(res)
 					_this.createImageBox(res.responseText, res.responseText, width, height)
 				})
-			}
-			if (this.imageList.children.length >= this.opt.num) {
-				this.removeUploadBox()
+			} else {
+				this.createImageBox(src, name, width, height)
 			}
 		},
 
@@ -475,6 +482,13 @@
 		zoomOutImage: function() {
 			this.overlay.style.display = "none"
 			this.zommImage.remove()
+		},
+
+		isCreateUploadBox: function() {
+			this.removeUploadBox()
+			if (this.imageList.children.length < this.opt.num) {
+				this.createUploadBox()
+			}
 		},
 
 		//删除图片

@@ -5,23 +5,55 @@
 		<title>cupload</title>
 	</head>
 	<body>
-		<p>新建</p>
-		<div id="cupload-create"></div>
-		<p>编辑</p>
-		<div id="cupload-update"></div>
+		<p>简单使用</p>
+		<div id="cupload-1"></div>
+		<p>多图上传(3张)</p>
+		<div id="cupload-2"></div>
+		<p>异步上传(3张)[请在php环境下运行，否则会出现未知错误]</p>
+		<div id="cupload-3"></div>
+		<p>大小限制(3张，最大2M)</p>
+		<div id="cupload-4"></div>
+		<p>像素限制(3张，最大(w*h)800*800)</p>
+		<div id="cupload-5"></div>
+		<p>初始化加载图片(5张, 已有三张)</p>
+		<div id="cupload-6"></div>
 	</body>
 	<script src="static/js/cupload.js"></script>
 	<script type="text/javascript">
-		var cuploadCreate = new Cupload ({
-			ele: '#cupload-create',
-			num: 3,
-			url: './upload.php',
+		var cupload1 = new Cupload ({
+			ele: '#cupload-1',
 		});
 
-		var cuploadUpdate = new Cupload ({
-			ele	 : '#cupload-update',
-			num  : 37,
-			data : ["static/image/1.jpg", "static/image/2.png", "static/image/3.png"],
+		var cupload2 = new Cupload ({
+			ele: '#cupload-2',
+			num: 3,
 		});
+
+		var cupload3 = new Cupload ({
+			ele	 : '#cupload-3',
+			num  : 3,
+			url  : './upload.php',
+		});
+
+		var cupload4 = new Cupload ({
+			ele	 : '#cupload-4',
+			num  : 3,
+			maxSize: 2048,
+		});
+
+		var cupload5 = new Cupload ({
+			ele	 : '#cupload-5',
+			num  : 3,
+			maxWidth: 800,
+    		maxHeight: 800,
+		});
+
+		var cupload6 = new Cupload ({
+			ele	 : '#cupload-6',
+			num  : 5,
+			data : ["./static/image/1.jpg", "./static/image/2.png", "./static/image/3.png"],
+		});
+
+
 	</script>
 </html>
