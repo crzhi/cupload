@@ -373,25 +373,11 @@
 			this.createDeleteBtn()
 			var _this = this
 			for (var m = 0; m <= this.i; m++) {
-
-				this.imageDelete[m].onmousedown = function(n) {
-					event.preventDefault()
+				this.imageDelete[m].onclick = function(n) {
 					return function() {
-						_this.dragImageBox(event, n)
+						_this.zoomInImage(n)
 					}
 				}(m)
-
-				this.imageDelete[m].onmousup = function(n) {
-					return function() {
-						console.log(n)
-					}
-				}(m)
-
-				// this.imageDelete[m].onclick = function(n) {
-				// 	return function() {
-				// 		_this.zoomInImage(n)
-				// 	}
-				// }(m)
 			}
 		},
 
