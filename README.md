@@ -42,7 +42,7 @@ git clone https://github.com/cuuuuuirz/cupload.git
 	ele             : "#cupload",           // 实例化的DOM对象,必需
 	name            : "image",              // 图片input的name名,非必需,默认为image
 	num             : 1,                    // 可上传图片的数量,非必需,默认为1
-	url             : "./upload.php",       //异步上传url,非必需,无默认值
+	url             : "./upload.php",       // 异步上传url,非必需,无默认值
 	width           : 148,                  // 预览框的宽,单位为px,非必需,默认为148
 	height          : 148,                  // 预览框的高,单位为px,非必需,默认为148
 	minSize         : 1024,                 // 图片大小最小限制,单位为KB,非必需,无默认值
