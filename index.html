@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>cupload</title>
+		<title>cupload例子</title>
 	</head>
 	<body>
 		<p>简单使用</p>
@@ -17,6 +17,11 @@
 		<div id="cupload-5"></div>
 		<p>初始化加载图片(5张, 已有三张)</p>
 		<div id="cupload-6"></div>
+		<p>post提交模式(3张)[请在php环境下运行，否则会出现未知错误]</p>
+		<form method="post" action="./form.php">
+			<div id="cupload-7"></div>
+			<button type="submit">提交</button>
+		</form>
 	</body>
 	<script src="static/js/cupload.js"></script>
 	<script type="text/javascript">
@@ -31,6 +36,7 @@
 
 		var cupload3 = new Cupload ({
 			ele	 : '#cupload-3',
+			name : 'image',
 			num  : 3,
 			url  : './upload.php',
 		});
@@ -52,6 +58,12 @@
 			ele	 : '#cupload-6',
 			num  : 5,
 			data : ["./static/image/1.jpg", "./static/image/2.png", "./static/image/3.png"],
+		});
+
+		var cupload7 = new Cupload ({
+			ele	: '#cupload-7',
+			name: 'image',
+			num	: 3,
 		});
 
 

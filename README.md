@@ -4,7 +4,7 @@
 
 ![](https://img.shields.io/badge/javascript-4EDD96.svg)
 
-支持预览、像素限制、大小限制、多图上传、放大预览、异步上传、编辑初始化图片
+支持多图上传、选择预览、数量限制、像素限制、大小限制、图片删除、放大预览、图片排序、异步上传、编辑初始化图片
 
 #### 下载使用
 
@@ -39,10 +39,10 @@ git clone https://github.com/cuuuuuirz/cupload.git
 //为方便比较和计算,部分参数为number型,已设置默认单位,不可再带单位。
 ```javascript
 {
-	ele		: "#cupload",		// 实例化的DOM对象id,必需,默认为cupload
+	ele		: "#cupload",		// 实例化的DOM对象,必需
 	name		: "image",		// 图片input的name名,非必需,默认为image
 	num		: 1,			// 可上传图片的数量,非必需,默认为1
-	url		: "./upload.php", //异步上传url
+	url		: "./upload.php",   //异步上传url
 	width		: 148,			// 预览框的宽,单位为px,非必需,默认为148
 	height		: 148,			// 预览框的高,单位为px,非必需,默认为148
 	minSize		: 1024,			// 图片大小最小限制,单位为KB,非必需,无默认值
