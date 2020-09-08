@@ -39,21 +39,21 @@ git clone https://github.com/cuuuuuirz/cupload.git
 //为方便比较和计算,部分参数为number型,已设置默认单位,不可再带单位。
 ```javascript
 {
-	ele		: "#cupload",		// 实例化的DOM对象,必需
-	name		: "image",		// 图片input的name名,非必需,默认为image
-	num		: 1,			// 可上传图片的数量,非必需,默认为1
-	url		: "./upload.php",       //异步上传url
-	width		: 148,			// 预览框的宽,单位为px,非必需,默认为148
-	height		: 148,			// 预览框的高,单位为px,非必需,默认为148
-	minSize		: 1024,			// 图片大小最小限制,单位为KB,非必需,无默认值
-	maxSize		: 2048,			// 图片大小最大限制,单位为KB,非必需,无默认值
-	limitedSize	: 2048,			// 图片大小要求,单位为KB,非必需,无默认值
-	minWidth	: 100,			// 图片宽度最小限制,单位为px,非必需,无默认值
-	minHeight	: 100,			// 图片高度最小限制,单位为px,非必需,无默认值
-	maxWidth	: 2000,			// 图片宽度最大限制,单位为px,非必需,无默认值
-	maxHeight	: 2000,			// 图片高度最大限制,单位为px,非必需,无默认值
-	limitedWidth	: 800,			// 图片宽度要求,单位为px,非必需,无默认值
-	limitedHeight	: 800,			// 图片高度要求,单位为px,非必需,无默认值
-	data		: ["1.png", "2.jpg"],	// 编辑模式下初始显示的图片路径,非必需,无默认值
+	ele     : "#cupload",       // 实例化的DOM对象,必需
+	name        : "image",      // 图片input的name名,非必需,默认为image
+	num     : 1,            // 可上传图片的数量,非必需,默认为1
+	url     : "./upload.php",       //异步上传url,非必需,无默认值
+	width       : 148,          // 预览框的宽,单位为px,非必需,默认为148
+	height      : 148,          // 预览框的高,单位为px,非必需,默认为148
+	minSize     : 1024,         // 图片大小最小限制,单位为KB,非必需,无默认值
+	maxSize     : 2048,         // 图片大小最大限制,单位为KB,非必需,无默认值
+	limitedSize : 2048,         // 图片大小要求,单位为KB,非必需,无默认值
+	minWidth    : 100,          // 图片宽度最小限制,单位为px,非必需,无默认值
+	minHeight   : 100,          // 图片高度最小限制,单位为px,非必需,无默认值
+	maxWidth    : 2000,         // 图片宽度最大限制,单位为px,非必需,无默认值
+	maxHeight   : 2000,         // 图片高度最大限制,单位为px,非必需,无默认值
+	limitedWidth    : 800,          // 图片宽度要求,单位为px,非必需,无默认值
+	limitedHeight   : 800,          // 图片高度要求,单位为px,非必需,无默认值
+	data        : ["1.png", "2.jpg"],   // 编辑模式下初始显示的图片路径,非必需,无默认值
 }
 ```
