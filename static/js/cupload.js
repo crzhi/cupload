@@ -176,8 +176,9 @@
 				}
 				var reader = new FileReader()
 				var _this = this
+				var reader.filename = file.name;
 				reader.onload = function(e) {
-					_this.limitedWidthAndHeight(e.target.result, file.name)
+					_this.limitedWidthAndHeight(e.target.result, e.target.filename)
 				}
 				reader.readAsDataURL(file);
 			}
