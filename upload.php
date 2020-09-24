@@ -10,22 +10,22 @@ $base64Image = str_replace(' ', '+', $base64Str);
 if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64Image, $result)){
 	//获取后缀
     $type = $result[2];
-        //设置保存路径
-        $filePath = "./upload/";
-        if(!file_exists($filePath)){
-            mkdir($filePath, 0755);
-        }
-        //设置文件名
-        $fileName = uniqid() . rand(0000,9999);
-        //设置图片路径
-        $newFile = $filePath.$fileName.".{$type}";
-        //存放图片
-        if (file_put_contents($newFile, base64_decode(str_replace($result[1], '', $base64Image)))){
+    //设置保存路径
+    $filePath = "./upload/";
+    if(!file_exists($filePath)){
+        mkdir($filePath, 0755);
+    }
+    //设置文件名
+    $fileName = uniqid() . rand(0000,9999);
+    //设置图片路径
+    $newFile = $filePath.$fileName.".{$type}";
+    //存放图片
+    if (file_put_contents($newFile, base64_decode(str_replace($result[1], '', $base64Image)))){
             //返回文件路径
-        die($new_file);
+        die($newFile);
     }else{
-        die("alert('error')");
+        die("error");
     }
 }else{
-    die("alert('error')");
+    die("error");
 }

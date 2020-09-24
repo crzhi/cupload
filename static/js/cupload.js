@@ -568,6 +568,37 @@
 			if (this.imageList.children.length < this.opt.num) {
 				this.createUploadBox()
 			}
+			if(this.opt.deleteUrl) {
+				var xhr = null;
+				var key = this.opt.name
+				var data = {}
+				data[key] = this.imageArr[n]
+			    if(window.XMLHttpRequest){
+			        xhr = new XMLHttpRequest()
+			    } else {
+			        xhr = new ActiveXObject('Microsoft.XMLHTTP')
+			    }
+			    if(typeof data == 'object'){
+			        var str = '';
+			        for(var key in data){
+			            str += key+'='+data[key]+'&';
+			        }
+			        data = str.replace(/&$/, '');
+			    }
+		        xhr.open('POST', this.opt.deleteUrl, true);
+		        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		        xhr.send(data);
+			    xhr.onreadystatechange = function(){
+			        if(xhr.readyState == 4){
+			            if(xhr.status == 200){
+			               console.log(xhr.response)
+			            } else {
+		                    alert(((xhr.responseText).split("</p>")[0]).split("<p>")[1])
+		                    return false
+			            }
+			        }
+			    }
+			}
 		},
 
 		sortLeft: function(event, n) {

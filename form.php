@@ -25,11 +25,11 @@ foreach ($base64Arr as $key => $base64) {
 	    if (file_put_contents($newFile, base64_decode(str_replace($result[1], '', $base64Image)))){
 	    	//返回文件路径
 	        array_push($arr, $newFile);
-	    }else{
-        	die("alert('error')");
-	    }
+		}else{
+		    die("error");
+		}
 	}else{
-        die("alert('error')");
+	    die("error");
 	}
 }
 

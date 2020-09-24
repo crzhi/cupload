@@ -18,10 +18,12 @@
 		<p>初始化加载图片(5张, 已有三张)</p>
 		<div id="cupload-6"></div>
 		<p>post提交模式(3张)[请在php环境下运行，否则会出现未知错误]</p>
-		<form method="post" action="./api/form.php">
+		<form method="post" action="./form.php">
 			<div id="cupload-7"></div>
 			<button type="submit">提交</button>
 		</form>
+		<p>删除时同时删除服务器图片(5张, 初始化已有三张)[请在php环境下运行，否则会出现未知错误][注意，图片删了可就没了]</p>
+		<div id="cupload-8"></div>
 	</body>
 	<script src="static/js/cupload.js"></script>
 	<script type="text/javascript">
@@ -38,7 +40,7 @@
 			ele	 : '#cupload-3',
 			name : 'image',
 			num  : 3,
-			url  : './api/upload.php',
+			url  : './upload.php',
 		});
 
 		var cupload4 = new Cupload ({
@@ -66,6 +68,12 @@
 			num	: 3,
 		});
 
+		var cupload6 = new Cupload ({
+			ele	 : '#cupload-8',
+			num  : 5,
+			data : ["./static/image/1.jpg", "./static/image/2.png", "./static/image/3.png"],
+			deleteUrl: './delete.php',
+		});
 
 	</script>
 </html>
