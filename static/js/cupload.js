@@ -573,6 +573,7 @@
 				var key = this.opt.name
 				var data = {}
 				data[key] = this.imageArr[n]
+				data['id'] = n
 			    if(window.XMLHttpRequest){
 			        xhr = new XMLHttpRequest()
 			    } else {

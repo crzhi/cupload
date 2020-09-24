@@ -8,7 +8,8 @@ $path = $_POST['image'];
 //检测图片路径
 if(file_exists($path)) {
 	if(unlink($path)) {
-		die('删除成功');
+		$id = $_POST['id'] + 1;
+		die('删除成功,你删除了第' . $id . '张图片');
 	}else{
 	    die("error");
 	}
