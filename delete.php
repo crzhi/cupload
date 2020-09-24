@@ -8,7 +8,7 @@ $path = $_POST['image'];
 //检测图片路径
 if(file_exists($path)) {
 	if(unlink($path)) {
-		die;
+		die('删除成功');
 	}else{
 	    die("error");
 	}
